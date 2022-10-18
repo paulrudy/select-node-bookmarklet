@@ -149,7 +149,7 @@
             padding: .25em;
             border: ${props.borderThickness}px solid ${props.color};
             color: ${props.color};
-            border-radius: .25em;
+            border-radius: ${props.borderRadius}em;
           }
         `;
         shadow.appendChild(style);
