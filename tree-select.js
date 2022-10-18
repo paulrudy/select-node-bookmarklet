@@ -39,6 +39,7 @@
     background: "#333",
     color: "#fff",
     opacity: 0.85,
+    basePadding: 0.25,
     borderThickness: 1,
     borderRadius: 0.4,
     headerHeight: 32,
@@ -119,7 +120,7 @@
           }
 
           #pop-up .header {
-            padding: 0 .25em .25em 1em;
+            padding: 0 ${props.basePadding}em ${props.basePadding}em 1em;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -138,15 +139,15 @@
           }
 
           #pop-up .body {
-            padding: .25em 1em;
+            padding: ${props.basePadding}em 1em;
             display: grid;
-            row-gap: .25em;
+            row-gap: ${props.basePadding}em;
           }
 
           button {
             cursor: pointer;
             background: none;
-            padding: .25em;
+            padding: ${props.basePadding}em;
             border: ${props.borderThickness}px solid ${props.color};
             color: ${props.color};
             border-radius: ${props.borderRadius}em;
