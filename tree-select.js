@@ -1,4 +1,4 @@
-(function (window) {
+(() => {
   /* adapted from https://stackoverflow.com/a/58205984/7613657 */
 
   let popupEl, popupHeader, popupBody, closeButton;
@@ -312,4 +312,4 @@
       el.parentElement.style.top = pos.y + "px";
     }
   }
-})(window);
+})();
