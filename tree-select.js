@@ -27,8 +27,6 @@
   let index = 0;
 
   function selectNodeContents(i) {
-    console.log(nodes);
-    console.log(i);
     if (i < nodes.length - 1 && i >= 0) {
       let targetNode = nodes[i].node.parentNode;
       if (targetNode.nodeName.toLowerCase() === "body") {
