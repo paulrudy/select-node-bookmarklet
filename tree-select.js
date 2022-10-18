@@ -1,4 +1,18 @@
 (function (window) {
+  const props = {
+    fontFamily: "sans-serif",
+    width: "30%",
+    minWidth: "10em",
+    background: "#333",
+    color: "#fff",
+    opacity: 0.85,
+    basePadding: 0.25,
+    borderThickness: 1,
+    borderRadius: 0.4,
+    headerHeight: 32,
+    windowTitle: "",
+  };
+
   let popupEl, popupHeader, popupBody, closeButton;
   let nodes = [];
   let sel = window.getSelection();
@@ -32,20 +46,6 @@
     nodes.push(nInfo);
     currentNode = currentNode.parentNode;
   } while (nodeName != "body");
-
-  const props = {
-    fontFamily: "sans-serif",
-    width: "30%",
-    minWidth: "10em",
-    background: "#333",
-    color: "#fff",
-    opacity: 0.85,
-    basePadding: 0.25,
-    borderThickness: 1,
-    borderRadius: 0.4,
-    headerHeight: 32,
-    windowTitle: "",
-  };
 
   const windowPosition = {
     left: ~~(document.documentElement.clientWidth / 2 - props.width / 2),
