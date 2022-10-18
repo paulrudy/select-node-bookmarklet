@@ -1,21 +1,8 @@
 (function (window) {
   // adapted from https://stackoverflow.com/a/58205984/7613657
 
-  const props = {
-    fontFamily: "sans-serif",
-    width: "30%",
-    minWidth: "10em",
-    background: "#333",
-    color: "#fff",
-    opacity: 0.85,
-    basePadding: 0.25,
-    borderThickness: 1,
-    borderRadius: 0.4,
-    headerHeight: 32,
-    windowTitle: "",
-  };
-
   let popupEl, popupHeader, popupBody, closeButton;
+
   let sel = window.getSelection();
   let currentNode;
   currentNode = sel.focusNode;
@@ -77,12 +64,6 @@
     );
     return targetNode;
   }
-
-  const windowPosition = {
-    left: ~~(document.documentElement.clientWidth / 2 - props.width / 2),
-    top: ~~(document.documentElement.clientHeight / 2 - props.height / 2),
-  };
-
   function buildPopup() {
     class NodeSelectorPopUp extends HTMLElement {
       constructor() {
@@ -97,7 +78,7 @@
         const popupHeaderTitle = document.createElement("span");
 
         popupHeaderTitle.setAttribute("class", "title");
-        popupHeaderTitle.textContent = props.windowTitle;
+        popupHeaderTitle.textContent = "";
 
         closeButton = document.createElement("button");
         closeButton.setAttribute("class", "close-button");
@@ -110,26 +91,30 @@
         const p = document.createElement("p");
         p.textContent = "Choose node level for selection";
 
-        const upButton = document.createElement("button");
-        upButton.innerHTML = "Up";
-        upButton.onclick = () => {
+        const parentButton = document.createElement("button");
+        parentButton.setAttribute("id", "parent");
+        parentButton.innerHTML = "<span>Parent</span>";
+        parentButton.onclick = () => {
           currentNode = nodeSelectParent(currentNode) ?? currentNode;
         };
 
-        const downButton = document.createElement("button");
-        downButton.innerHTML = "Down";
-        downButton.onclick = () => {
+        const childButton = document.createElement("button");
+        childButton.setAttribute("id", "child");
+        childButton.innerHTML = "<span>First<br/>Child</span>";
+        childButton.onclick = () => {
           currentNode = nodeSelectFirstChild(currentNode) ?? currentNode;
         };
 
         const nextButton = document.createElement("button");
-        nextButton.innerHTML = "Next";
+        nextButton.setAttribute("id", "next");
+        nextButton.innerHTML = "<span>Next<br/>Sibling</span>";
         nextButton.onclick = () => {
           currentNode = nodeSelectNextSibling(currentNode) ?? currentNode;
         };
 
         const prevButton = document.createElement("button");
-        prevButton.innerHTML = "Previous";
+        prevButton.setAttribute("id", "prev");
+        prevButton.innerHTML = "<span>Previous<br/>Sibling</span>";
         prevButton.onclick = () => {
           currentNode = nodeSelectPrevSibling(currentNode) ?? currentNode;
         };
@@ -137,26 +122,23 @@
         const style = document.createElement("style");
         style.textContent = `
           * {
-            font-family: ${props.fontFamily};
+            font-family: sans-serif;
           }
 
           #pop-up {
             position: fixed;
-            left: ${windowPosition.left}px;
-            top: ${windowPosition.top}px;
+            left: 0;
+            top: 0;
             z-index: ${Number.MAX_SAFE_INTEGER};
-            width: ${props.width};
-            min-width: ${props.minWidth};
-            background: ${props.background};
-            opacity: ${props.opacity};
-            border-radius: ${props.borderRadius}em;
-            border: ${props.borderThickness}px solid ${props.color};
-            padding-bottom: 1em;
-            color: ${props.color};
+            background: #333;
+            opacity: .85;
+            border-radius: .4em;
+            border: 1px solid #fff;
+            display: grid;
+            color: #fff;
           }
 
           #pop-up .header {
-            padding: 0 ${props.basePadding}em ${props.basePadding}em 1em;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -168,25 +150,59 @@
           #pop-up .close-button {
             aspect-ratio: 1;
             border: none;
-            padding: 0;
+            padding: .25em .25em 0 0;
+            line-height: .75em;
             text-align: center;
-            color: ${props.color};
+            color: #fff;
             font-size: 1.2em;
           }
 
           #pop-up .body {
-            padding: ${props.basePadding}em 1em;
+            padding: .5em .5em 0.75em;
             display: grid;
-            row-gap: ${props.basePadding}em;
+            gap: .25em;
+            grid-template-columns: 1fr 1.25fr 1fr;
+            grid-template-areas:  "top top top"
+                                  "left upper right"
+                                  "left lower right";
+          }
+
+          #pop-up .body p {
+            grid-area: top;
+            margin: 0 0 .5em 0;
           }
 
           button {
             background: none;
-            border: ${props.borderThickness}px solid ${props.color};
-            border-radius: ${props.borderRadius}em;
-            padding: ${props.basePadding}em;
-            color: ${props.color};
+            border: 1px solid #fff;
+            border-radius: .4em;
+            padding: .25em;
+            color: #fff;
             cursor: pointer;
+          }
+
+          button#parent {
+            grid-area: left;
+          }
+
+          button#parent span {
+            // writing-mode: vertical-rl;
+          }
+
+          button#child {
+            grid-area: right;
+          }
+
+          button#child span {
+            // writing-mode: vertical-rl;
+          }
+
+          button#prev {
+            grid-area: upper;
+          }
+
+          button#next {
+            grid-area: lower;
           }
         `;
 
@@ -194,8 +210,8 @@
         popupHeader.appendChild(closeButton);
 
         popupBody.appendChild(p);
-        popupBody.appendChild(upButton);
-        popupBody.appendChild(downButton);
+        popupBody.appendChild(parentButton);
+        popupBody.appendChild(childButton);
         popupBody.appendChild(nextButton);
         popupBody.appendChild(prevButton);
 
