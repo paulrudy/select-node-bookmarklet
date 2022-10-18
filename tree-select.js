@@ -34,6 +34,7 @@
   } while (nodeName != "body");
 
   const props = {
+    fontFamily: "sans-serif",
     width: "30%",
     minWidth: "10em",
     background: "#333",
@@ -105,6 +106,10 @@
         const style = document.createElement("style");
 
         style.textContent = `
+          * {
+            font-family: ${props.fontFamily};
+          }
+
           #pop-up {
             position: fixed;
             left: ${windowPosition.left}px;
