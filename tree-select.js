@@ -46,6 +46,17 @@
     return targetNode;
   }
 
+  function nodeSelectNextSibling(thisNode) {
+    let targetNode = thisNode.nextElementSibling ?? thisNode;
+    sel.setBaseAndExtent(
+      targetNode,
+      0,
+      targetNode,
+      targetNode.childNodes.length
+    );
+    return targetNode;
+  }
+
   const windowPosition = {
     left: ~~(document.documentElement.clientWidth / 2 - props.width / 2),
     top: ~~(document.documentElement.clientHeight / 2 - props.height / 2),
@@ -88,6 +99,12 @@
         downButton.innerHTML = "Down";
         downButton.onclick = () => {
           currentNode = nodeSelectFirstChild(currentNode) ?? currentNode;
+        };
+
+        const nextButton = document.createElement("button");
+        nextButton.innerHTML = "Next";
+        nextButton.onclick = () => {
+          currentNode = nodeSelectNextSibling(currentNode) ?? currentNode;
         };
 
         const style = document.createElement("style");
@@ -151,6 +168,7 @@
         popupBody.appendChild(p);
         popupBody.appendChild(upButton);
         popupBody.appendChild(downButton);
+        popupBody.appendChild(nextButton);
 
         popupEl.appendChild(popupHeader);
         popupEl.appendChild(popupBody);
