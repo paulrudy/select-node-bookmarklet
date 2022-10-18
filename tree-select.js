@@ -1,5 +1,5 @@
 (function (window) {
-  // adapted from https://stackoverflow.com/a/58205984/7613657
+  /* adapted from https://stackoverflow.com/a/58205984/7613657 */
 
   let popupEl, popupHeader, popupBody, closeButton;
 
@@ -210,7 +210,7 @@
           }
 
           button#parent span {
-            // writing-mode: vertical-rl;
+            /* writing-mode: vertical-rl; */
           }
 
           button#child {
@@ -218,7 +218,7 @@
           }
 
           button#child span {
-            // writing-mode: vertical-rl;
+            /* writing-mode: vertical-rl; */
           }
 
           button#prev {
