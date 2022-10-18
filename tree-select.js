@@ -101,14 +101,14 @@
         popupEl.setAttribute("id", "pop-up");
 
         popupHeader = document.createElement("div");
-        popupHeader.setAttribute("class", "header");
+        popupHeader.setAttribute("id", "header");
         const popupHeaderTitle = document.createElement("span");
 
-        popupHeaderTitle.setAttribute("class", "title");
+        popupHeaderTitle.setAttribute("id", "title");
         popupHeaderTitle.textContent = "";
 
         closeButton = document.createElement("button");
-        closeButton.setAttribute("class", "close-button");
+        closeButton.setAttribute("id", "close-button");
         closeButton.textContent = "×";
         closeButton.addEventListener("click", () => popupEl.remove(), false);
 
@@ -116,7 +116,7 @@
         popupMsg.textContent = "Choose node level for selection";
 
         popupButtons = document.createElement("div");
-        popupButtons.setAttribute("class", "buttons");
+        popupButtons.setAttribute("id", "buttons");
 
         const parentButton = document.createElement("button");
         parentButton.setAttribute("id", "parent");
@@ -172,16 +172,16 @@
             padding-right: .75em;
           }
 
-          #pop-up .header {
+          #header {
             display: flex;
             justify-content: space-between;
             align-items: center;
           }
 
-          #pop-up .header .title {
+          #header #title {
           }
 
-          #pop-up .close-button {
+          #close-button {
             aspect-ratio: 1;
             border: none;
             padding: .25em .25em 0 0;
@@ -191,12 +191,11 @@
             font-size: 1.2em;
           }
 
-          #pop-up .buttons {
+          #buttons {
             display: grid;
             gap: .25em;
             grid-template-columns: 1fr 1.25fr 1fr;
-            grid-template-areas:  "top top top"
-                                  "left upper right"
+            grid-template-areas:  "left upper right"
                                   "left lower right";
           }
 
