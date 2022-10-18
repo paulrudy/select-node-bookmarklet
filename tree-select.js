@@ -23,7 +23,16 @@
   }
 
   function nodeSelectFirstChild(thisNode) {
-    let targetNode = thisNode.firstElementChild ?? thisNode;
+    let targetNode;
+    if (
+      thisNode.firstElementChild &&
+      thisNode.firstElementChild.nodeName.toLowerCase() !==
+        "node-selector-popup"
+    ) {
+      targetNode = thisNode.firstElementChild;
+    } else {
+      return thisNode;
+    }
     sel.setBaseAndExtent(
       targetNode,
       0,
