@@ -1,14 +1,32 @@
 javascript: (() => {
   /* adapted from https://stackoverflow.com/a/58205984/7613657 */
 
-  let popupEl, popupHeader, popupBody, closeButton;
+  const popupMsgs = {
+    normal: `
+            <p>Navigate nodes to select them</p>
+            `,
+    info: `
+            <p>Entire page is selected.</p>
+            <p>To navigate relative to a pre-selected node:</p>
+            <ul>
+            <li>Refresh the page</li>
+            <li>Make a small selection</li>
+            <li>Activate this bookmarklet</li>
+            `,
+  };
+  let popupEl, popupHeader, popupMsg, closeButton, popupButtons;
+  const windowPosition = {
+    left: 0,
+    top: 0,
+  };
 
   let sel = window.getSelection();
-  let currentNode;
+  let currentNode, infoMsg;
   currentNode = sel.focusNode;
   if (!currentNode) {
-    alert("Please select some text before running this bookmarklet");
-    return;
+    currentNode = document.body;
+    sel.selectAllChildren(currentNode);
+    infoMsg = true;
   }
 
   function nodeSelectParent(thisNode) {
@@ -113,7 +131,9 @@ javascript: (() => {
         closeButton.addEventListener("click", () => popupEl.remove(), false);
 
         const popupMsg = document.createElement("div");
-        popupMsg.textContent = "Choose node level for selection";
+        popupMsg.setAttribute("id", "popup-message");
+        popupMsg.innerHTML = infoMsg ? popupMsgs.info : popupMsgs.normal;
+        infoMsg = false;
 
         popupButtons = document.createElement("div");
         popupButtons.setAttribute("id", "buttons");
@@ -124,6 +144,7 @@ javascript: (() => {
         docBodyButton.onclick = () => {
           currentNode = document.body;
           currentNode = nodeSelectParent(currentNode) ?? currentNode;
+          popupMsg.innerHTML = popupMsgs.normal;
         };
 
         const parentButton = document.createElement("button");
@@ -131,6 +152,7 @@ javascript: (() => {
         parentButton.innerHTML = "<span>Parent</span>";
         parentButton.onclick = () => {
           currentNode = nodeSelectParent(currentNode) ?? currentNode;
+          popupMsg.innerHTML = popupMsgs.normal;
         };
 
         const childButton = document.createElement("button");
@@ -138,6 +160,7 @@ javascript: (() => {
         childButton.innerHTML = "<span>First<br/>Child</span>";
         childButton.onclick = () => {
           currentNode = nodeSelectFirstChild(currentNode) ?? currentNode;
+          popupMsg.innerHTML = popupMsgs.normal;
         };
 
         const nextButton = document.createElement("button");
@@ -145,6 +168,7 @@ javascript: (() => {
         nextButton.innerHTML = "<span>Next<br/>Sibling</span>";
         nextButton.onclick = () => {
           currentNode = nodeSelectNextSibling(currentNode) ?? currentNode;
+          popupMsg.innerHTML = popupMsgs.normal;
         };
 
         const prevButton = document.createElement("button");
@@ -152,6 +176,7 @@ javascript: (() => {
         prevButton.innerHTML = "<span>Previous<br/>Sibling</span>";
         prevButton.onclick = () => {
           currentNode = nodeSelectPrevSibling(currentNode) ?? currentNode;
+          popupMsg.innerHTML = popupMsgs.normal;
         };
 
         const style = document.createElement("style");
@@ -197,6 +222,21 @@ javascript: (() => {
             text-align: center;
             color: #fff;
             font-size: 1.2em;
+          }
+
+          #popup-message {
+            font-size: .85em;
+            max-width: 15em;
+            line-height: 1.3;
+          }
+
+          #popup-message p {
+            margin: .5em 0;
+          }
+
+          #popup-message ul {
+            padding-left: 1.1em;
+            margin: .5em 0;
           }
 
           #buttons {
