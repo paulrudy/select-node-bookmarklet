@@ -46,13 +46,13 @@
     if (thisNode.nodeName.toLowerCase() === "body") {
       return thisNode;
     }
-
+    let loopNode = thisNode.parentNode.firstElementChild;
     let targetNode =
       thisNode.nextElementSibling &&
       thisNode.nextElementSibling.nodeName.toLowerCase() !==
         "node-selector-popup"
         ? thisNode.nextElementSibling
-        : thisNode.parentNode.firstElementChild;
+        : loopNode;
     if (targetNode === null) {
       return thisNode;
     }
