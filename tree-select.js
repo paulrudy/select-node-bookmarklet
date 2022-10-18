@@ -29,13 +29,10 @@
       thisNode.nodeName.toLowerCase() === "body"
         ? thisNode
         : thisNode.parentNode;
-    if (targetNode.nodeName.toLowerCase() === "body") {
-      sel.setBaseAndExtent(targetNode.firstChild, 0, popupEl, 0);
-      return targetNode;
-    } else {
-      sel.selectAllChildren(targetNode);
-      return targetNode;
-    }
+    targetNode.nodeName.toLowerCase() === "body"
+      ? sel.setBaseAndExtent(targetNode.firstChild, 0, popupEl, 0)
+      : sel.selectAllChildren(targetNode);
+    return targetNode;
   }
 
   function nodeSelectFirstChild(thisNode) {
