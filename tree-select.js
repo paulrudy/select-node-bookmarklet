@@ -1,4 +1,6 @@
 (function (window) {
+  // adapted from https://stackoverflow.com/a/58205984/7613657
+
   const props = {
     fontFamily: "sans-serif",
     width: "30%",
