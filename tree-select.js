@@ -63,7 +63,7 @@
   };
 
   function buildPopup() {
-    class PopUpInfo extends HTMLElement {
+    class NodeSelectorPopUp extends HTMLElement {
       constructor() {
         super();
         const shadow = this.attachShadow({ mode: "closed" });
@@ -177,11 +177,11 @@
         shadow.appendChild(style);
       }
     }
-    customElements.define("popup-info", PopUpInfo);
+    customElements.define("node-selector-popup", NodeSelectorPopUp);
   }
   buildPopup();
 
-  let test = document.createElement("popup-info");
+  let test = document.createElement("node-selector-popup");
   document.body.appendChild(test);
 
   draggable(popupHeader);
