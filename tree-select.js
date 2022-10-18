@@ -69,13 +69,14 @@
     if (thisNode.nodeName.toLowerCase() === "body") {
       return thisNode;
     }
-
-    let targetNode =
-      thisNode.previousElementSibling &&
-      thisNode.previousElementSibling.nodeName.toLowerCase() !==
-        "node-selector-popup"
-        ? thisNode.previousElementSibling
+    let loopNode =
+      thisNode.parentNode.lastElementChild.nodeName.toLowerCase() ===
+      "node-selector-popup"
+        ? thisNode.parentNode.lastElementChild.previousElementSibling
         : thisNode.parentNode.lastElementChild;
+    let targetNode = thisNode.previousElementSibling
+      ? thisNode.previousElementSibling
+      : loopNode;
     if (targetNode === null) {
       return thisNode;
     }
