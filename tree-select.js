@@ -40,6 +40,9 @@
         "node-selector-popup"
         ? thisNode.nextElementSibling
         : thisNode.parentNode.firstElementChild;
+    if (targetNode === null) {
+      return thisNode;
+    }
     sel.setBaseAndExtent(
       targetNode,
       0,
@@ -56,6 +59,9 @@
         "node-selector-popup"
         ? thisNode.previousElementSibling
         : thisNode.parentNode.lastElementChild;
+    if (targetNode === null) {
+      return thisNode;
+    }
     sel.setBaseAndExtent(
       targetNode,
       0,
