@@ -25,10 +25,13 @@
   }
 
   function nodeSelectParent(thisNode) {
-    let targetNode = thisNode.parentNode;
+    let targetNode =
+      thisNode.nodeName.toLowerCase() === "body"
+        ? thisNode
+        : thisNode.parentNode;
     if (targetNode.nodeName.toLowerCase() === "body") {
       sel.setBaseAndExtent(targetNode.firstChild, 0, popupEl, 0);
-      return thisNode;
+      return targetNode;
     } else {
       sel.selectAllChildren(targetNode);
       return targetNode;
