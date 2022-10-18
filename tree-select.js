@@ -16,36 +16,35 @@
   };
 
   let popupEl, popupHeader, popupBody, closeButton;
-  let nodes = [];
   let sel = window.getSelection();
-  let currentNode, nodeName;
+  let currentNode;
   currentNode = sel.focusNode;
   if (!currentNode) {
     alert("Please select some text before running this bookmarklet");
     return;
   }
-  let index = 0;
 
-  function selectNodeContents(i) {
-    if (i < nodes.length - 1 && i >= 0) {
-      let targetNode = nodes[i].node.parentNode;
-      if (targetNode.nodeName.toLowerCase() === "body") {
-        sel.setBaseAndExtent(targetNode.firstChild, 0, popupEl, 0);
-      } else {
-        sel.selectAllChildren(targetNode);
-      }
-      return i;
+  function nodeSelectParent(thisNode) {
+    let targetNode = thisNode.parentNode;
+    if (targetNode.nodeName.toLowerCase() === "body") {
+      sel.setBaseAndExtent(targetNode.firstChild, 0, popupEl, 0);
+      return thisNode;
     } else {
-      return null;
+      sel.selectAllChildren(targetNode);
+      return targetNode;
     }
   }
 
-  do {
-    nodeName = currentNode.nodeName.toLowerCase();
-    const nInfo = { element: nodeName, node: currentNode };
-    nodes.push(nInfo);
-    currentNode = currentNode.parentNode;
-  } while (nodeName != "body");
+  function nodeSelectFirstChild(thisNode) {
+    let targetNode = thisNode.firstElementChild ?? thisNode;
+    sel.setBaseAndExtent(
+      targetNode,
+      0,
+      targetNode,
+      targetNode.childNodes.length
+    );
+    return targetNode;
+  }
 
   const windowPosition = {
     left: ~~(document.documentElement.clientWidth / 2 - props.width / 2),
@@ -82,13 +81,13 @@
         const upButton = document.createElement("button");
         upButton.innerHTML = "Up";
         upButton.onclick = () => {
-          index = selectNodeContents(index + 1) ?? index;
+          currentNode = nodeSelectParent(currentNode) ?? currentNode;
         };
 
         const downButton = document.createElement("button");
         downButton.innerHTML = "Down";
         downButton.onclick = () => {
-          index = selectNodeContents(index - 1) ?? index;
+          currentNode = nodeSelectFirstChild(currentNode) ?? currentNode;
         };
 
         const style = document.createElement("style");
