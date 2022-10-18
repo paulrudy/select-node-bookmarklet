@@ -1,4 +1,4 @@
-(() => {
+javascript: (() => {
   /* adapted from https://stackoverflow.com/a/58205984/7613657 */
 
   let popupEl, popupHeader, popupBody, closeButton;
