@@ -148,10 +148,10 @@
             width: ${props.width};
             min-width: ${props.minWidth};
             background: ${props.background};
-            color: ${props.color};
             opacity: ${props.opacity};
             border-radius: ${props.borderRadius}em;
             border: ${props.borderThickness}px solid ${props.color};
+            color: ${props.color};
           }
 
           #pop-up .header {
@@ -162,16 +162,15 @@
           }
 
           #pop-up .header .title {
-
           }
 
           #pop-up .close-button {
             aspect-ratio: 1;
+            border: none;
+            padding: 0;
+            text-align: center;
             color: ${props.color};
             font-size: 1.2em;
-            text-align: center;
-            padding: 0;
-            border: none;
           }
 
           #pop-up .body {
@@ -181,12 +180,12 @@
           }
 
           button {
-            cursor: pointer;
             background: none;
-            padding: ${props.basePadding}em;
             border: ${props.borderThickness}px solid ${props.color};
-            color: ${props.color};
             border-radius: ${props.borderRadius}em;
+            padding: ${props.basePadding}em;
+            color: ${props.color};
+            cursor: pointer;
           }
         `;
 
