@@ -47,7 +47,12 @@
   }
 
   function nodeSelectNextSibling(thisNode) {
-    let targetNode = thisNode.nextElementSibling ?? thisNode;
+    let targetNode =
+      thisNode.nextElementSibling &&
+      thisNode.nextElementSibling.nodeName.toLowerCase() !==
+        "node-selector-popup"
+        ? thisNode.nextElementSibling
+        : thisNode;
     sel.setBaseAndExtent(
       targetNode,
       0,
