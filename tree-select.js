@@ -151,6 +151,7 @@
             opacity: ${props.opacity};
             border-radius: ${props.borderRadius}em;
             border: ${props.borderThickness}px solid ${props.color};
+            padding-bottom: 1em;
             color: ${props.color};
           }
 
