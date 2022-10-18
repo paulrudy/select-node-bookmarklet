@@ -91,20 +91,7 @@
           index = selectNodeContents(index - 1) ?? index;
         };
 
-        popupHeader.appendChild(popupHeaderTitle);
-        popupHeader.appendChild(closeButton);
-
-        popupBody.appendChild(p);
-        popupBody.appendChild(upButton);
-        popupBody.appendChild(downButton);
-
-        popupEl.appendChild(popupHeader);
-        popupEl.appendChild(popupBody);
-
-        shadow.appendChild(popupEl);
-
         const style = document.createElement("style");
-
         style.textContent = `
           * {
             font-family: ${props.fontFamily};
@@ -158,6 +145,18 @@
             border-radius: ${props.borderRadius}em;
           }
         `;
+
+        popupHeader.appendChild(popupHeaderTitle);
+        popupHeader.appendChild(closeButton);
+
+        popupBody.appendChild(p);
+        popupBody.appendChild(upButton);
+        popupBody.appendChild(downButton);
+
+        popupEl.appendChild(popupHeader);
+        popupEl.appendChild(popupBody);
+
+        shadow.appendChild(popupEl);
         shadow.appendChild(style);
       }
     }
