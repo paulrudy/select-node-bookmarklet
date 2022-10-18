@@ -118,6 +118,14 @@ javascript: (() => {
         popupButtons = document.createElement("div");
         popupButtons.setAttribute("id", "buttons");
 
+        const docBodyButton = document.createElement("button");
+        docBodyButton.setAttribute("id", "doc-body");
+        docBodyButton.innerHTML = "<span>Document Body</span>";
+        docBodyButton.onclick = () => {
+          currentNode = document.body;
+          currentNode = nodeSelectParent(currentNode) ?? currentNode;
+        };
+
         const parentButton = document.createElement("button");
         parentButton.setAttribute("id", "parent");
         parentButton.innerHTML = "<span>Parent</span>";
@@ -195,7 +203,8 @@ javascript: (() => {
             display: grid;
             gap: .25em;
             grid-template-columns: 1fr 1.25fr 1fr;
-            grid-template-areas:  "left upper right"
+            grid-template-areas:  "top top top"
+                                  "left upper right"
                                   "left lower right";
           }
 
@@ -206,6 +215,10 @@ javascript: (() => {
             padding: .25em;
             color: #fff;
             cursor: pointer;
+          }
+
+          button#doc-body {
+            grid-area: top;
           }
 
           button#parent {
@@ -236,6 +249,7 @@ javascript: (() => {
         popupHeader.appendChild(popupHeaderTitle);
         popupHeader.appendChild(closeButton);
 
+        popupButtons.appendChild(docBodyButton);
         popupButtons.appendChild(parentButton);
         popupButtons.appendChild(childButton);
         popupButtons.appendChild(nextButton);
@@ -245,8 +259,8 @@ javascript: (() => {
         popupEl.appendChild(popupMsg);
         popupEl.appendChild(popupButtons);
 
-        shadow.appendChild(popupEl);
         shadow.appendChild(style);
+        shadow.appendChild(popupEl);
       }
     }
     customElements.define("node-selector-popup", NodeSelectorPopUp);
