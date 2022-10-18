@@ -66,7 +66,10 @@
   }
 
   function nodeSelectPrevSibling(thisNode) {
-    if (thisNode.nodeName.toLowerCase() === "body") {
+    if (
+      thisNode.nodeName.toLowerCase() === "body" ||
+      thisNode.parentNode.childElementCount === 0
+    ) {
       return thisNode;
     }
     let loopNode =
