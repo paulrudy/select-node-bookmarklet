@@ -34,11 +34,6 @@
   } while (nodeName != "body");
 
   const props = {
-    uniqueId:
-      "z-" +
-      Math.random().toString(36).slice(2) +
-      "-" +
-      Math.random().toString(36).slice(2),
     width: "30%",
     minWidth: "10em",
     background: "#333",
@@ -62,80 +57,102 @@
         const shadow = this.attachShadow({ mode: "closed" });
 
         popupEl = document.createElement("div");
-        popupEl.setAttribute("id", props.uniqueId);
+        popupEl.setAttribute("id", "pop-up");
 
-        Object.assign(popupEl.style, {
-          position: "fixed",
-          left: windowPosition.left + "px",
-          top: windowPosition.top + "px",
-          zIndex: Number.MAX_SAFE_INTEGER,
-          width: props.width,
-          minWidth: props.minWidth,
-          background: props.background,
-          color: props.color,
-          opacity: props.opacity,
-          borderRadius: props.borderRadius + "em",
-          border: props.borderThickness + "px solid " + props.color,
-        });
         popupHeader = document.createElement("div");
-        Object.assign(popupHeader.style, {
-          padding: "0 .25em .25em 1em",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        });
-        const popupHeaderTitle = document.createElement("div");
-        Object.assign(popupHeaderTitle.style, {});
+        popupHeader.setAttribute("class", "header");
+        const popupHeaderTitle = document.createElement("span");
+
+        popupHeaderTitle.setAttribute("class", "title");
         popupHeaderTitle.textContent = props.windowTitle;
+
         closeButton = document.createElement("button");
-        closeButton.setAttribute("id", props.uniqueId + "__close-button");
+        closeButton.setAttribute("class", "close-button");
+        closeButton.textContent = "×";
+        closeButton.addEventListener("click", () => popupEl.remove(), false);
 
         popupBody = document.createElement("div");
-        Object.assign(popupBody.style, {
-          padding: ".25em 1em",
-          display: "grid",
-          rowGap: ".25em",
-        });
+        popupBody.setAttribute("class", "body");
+
         const p = document.createElement("p");
         p.textContent = "Choose node level for selection";
-        popupBody.appendChild(p);
+
         const upButton = document.createElement("button");
         upButton.innerHTML = "Up";
         upButton.onclick = () => {
           index = selectNodeContents(index + 1) ?? index;
         };
+
         const downButton = document.createElement("button");
         downButton.innerHTML = "Down";
         downButton.onclick = () => {
           index = selectNodeContents(index - 1) ?? index;
         };
-        popupBody.appendChild(upButton);
-        popupBody.appendChild(downButton);
-        closeButton.addEventListener("click", () => popupEl.remove(), false);
-        closeButton.textContent = "×";
+
         popupHeader.appendChild(popupHeaderTitle);
         popupHeader.appendChild(closeButton);
+
+        popupBody.appendChild(p);
+        popupBody.appendChild(upButton);
+        popupBody.appendChild(downButton);
+
         popupEl.appendChild(popupHeader);
         popupEl.appendChild(popupBody);
+
         shadow.appendChild(popupEl);
 
-        document.querySelectorAll(`#${props.uniqueId} button`).forEach((b) =>
-          Object.assign(b.style, {
-            cursor: "pointer",
-            background: "none",
-            padding: ".25em",
-            border: props.borderThickness + "px solid " + props.color,
-            color: props.color,
-            borderRadius: ".25em",
-          })
-        );
-        Object.assign(closeButton.style, {
-          aspectRatio: "1",
-          color: props.color,
-          textAlign: "center",
-          padding: "0",
-          border: "none",
-        });
+        const style = document.createElement("style");
+
+        style.textContent = `
+          #pop-up {
+            position: fixed;
+            left: ${windowPosition.left}px;
+            top: ${windowPosition.top}px;
+            z-index: ${Number.MAX_SAFE_INTEGER};
+            width: ${props.width};
+            min-width: ${props.minWidth};
+            background: ${props.background};
+            color: ${props.color};
+            opacity: ${props.opacity};
+            border-radius: ${props.borderRadius}em;
+            border: ${props.borderThickness}px solid ${props.color};
+          }
+
+          #pop-up .header {
+            padding: 0 .25em .25em 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          #pop-up .header .title {
+
+          }
+
+          #pop-up .close-button {
+            aspect-ratio: 1;
+            color: ${props.color};
+            text-align: center;
+            padding: 0;
+            border: none;
+          }
+
+          #pop-up .body {
+            padding: .25em 1em;
+            display: grid;
+            row-gap: .25em;
+          }
+
+          button {
+            cursor: pointer;
+            background: none;
+            padding: .25em;
+            border: ${props.borderThickness}px solid ${props.color};
+            color: ${props.color};
+            border-radius: .25em;
+          }
+        `;
+        shadow.appendChild(style);
       }
     }
     customElements.define("popup-info", PopUpInfo);
