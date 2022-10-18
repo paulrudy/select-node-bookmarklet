@@ -168,6 +168,7 @@
           #pop-up .close-button {
             aspect-ratio: 1;
             color: ${props.color};
+            font-size: 1.2em;
             text-align: center;
             padding: 0;
             border: none;
