@@ -52,7 +52,7 @@
       thisNode.nextElementSibling.nodeName.toLowerCase() !==
         "node-selector-popup"
         ? thisNode.nextElementSibling
-        : thisNode;
+        : thisNode.parentNode.firstElementChild;
     sel.setBaseAndExtent(
       targetNode,
       0,
