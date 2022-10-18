@@ -34,6 +34,10 @@
   }
 
   function nodeSelectNextSibling(thisNode) {
+    if (thisNode.nodeName.toLowerCase() === "body") {
+      return thisNode;
+    }
+
     let targetNode =
       thisNode.nextElementSibling &&
       thisNode.nextElementSibling.nodeName.toLowerCase() !==
@@ -53,6 +57,10 @@
   }
 
   function nodeSelectPrevSibling(thisNode) {
+    if (thisNode.nodeName.toLowerCase() === "body") {
+      return thisNode;
+    }
+
     let targetNode =
       thisNode.previousElementSibling &&
       thisNode.previousElementSibling.nodeName.toLowerCase() !==
