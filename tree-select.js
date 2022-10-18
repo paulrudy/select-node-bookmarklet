@@ -66,7 +66,7 @@
     class NodeSelectorPopUp extends HTMLElement {
       constructor() {
         super();
-        const shadow = this.attachShadow({ mode: "closed" });
+        const shadow = this.attachShadow({ mode: "open" });
 
         popupEl = document.createElement("div");
         popupEl.setAttribute("id", "pop-up");
