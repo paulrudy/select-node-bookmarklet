@@ -62,6 +62,22 @@
     return targetNode;
   }
 
+  function nodeSelectPrevSibling(thisNode) {
+    let targetNode =
+      thisNode.previousElementSibling &&
+      thisNode.previousElementSibling.nodeName.toLowerCase() !==
+        "node-selector-popup"
+        ? thisNode.previousElementSibling
+        : thisNode.parentNode.lastElementChild;
+    sel.setBaseAndExtent(
+      targetNode,
+      0,
+      targetNode,
+      targetNode.childNodes.length
+    );
+    return targetNode;
+  }
+
   const windowPosition = {
     left: ~~(document.documentElement.clientWidth / 2 - props.width / 2),
     top: ~~(document.documentElement.clientHeight / 2 - props.height / 2),
@@ -110,6 +126,12 @@
         nextButton.innerHTML = "Next";
         nextButton.onclick = () => {
           currentNode = nodeSelectNextSibling(currentNode) ?? currentNode;
+        };
+
+        const prevButton = document.createElement("button");
+        prevButton.innerHTML = "Previous";
+        prevButton.onclick = () => {
+          currentNode = nodeSelectPrevSibling(currentNode) ?? currentNode;
         };
 
         const style = document.createElement("style");
@@ -174,6 +196,7 @@
         popupBody.appendChild(upButton);
         popupBody.appendChild(downButton);
         popupBody.appendChild(nextButton);
+        popupBody.appendChild(prevButton);
 
         popupEl.appendChild(popupHeader);
         popupEl.appendChild(popupBody);
