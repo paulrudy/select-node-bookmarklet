@@ -31,10 +31,10 @@ javascript: (() => {
 
   function nodeSelectParent(thisNode) {
     let targetNode =
-      thisNode.nodeName.toLowerCase() === "body"
+      thisNode.nodeName.toLowerCase() === 'body'
         ? thisNode
         : thisNode.parentNode;
-    targetNode.nodeName.toLowerCase() === "body"
+    targetNode.nodeName.toLowerCase() === 'body'
       ? sel.setBaseAndExtent(targetNode.firstChild, 0, popupEl, 0)
       : sel.selectAllChildren(targetNode);
     return targetNode;
@@ -45,7 +45,7 @@ javascript: (() => {
     if (
       thisNode.firstElementChild &&
       thisNode.firstElementChild.nodeName.toLowerCase() !==
-        "node-selector-popup"
+        'node-selector-popup'
     ) {
       targetNode = thisNode.firstElementChild;
     } else {
@@ -61,14 +61,14 @@ javascript: (() => {
   }
 
   function nodeSelectNextSibling(thisNode) {
-    if (thisNode.nodeName.toLowerCase() === "body") {
+    if (thisNode.nodeName.toLowerCase() === 'body') {
       return thisNode;
     }
     let loopNode = thisNode.parentNode.firstElementChild;
     let targetNode =
       thisNode.nextElementSibling &&
       thisNode.nextElementSibling.nodeName.toLowerCase() !==
-        "node-selector-popup"
+        'node-selector-popup'
         ? thisNode.nextElementSibling
         : loopNode;
     if (targetNode === null) {
@@ -85,14 +85,14 @@ javascript: (() => {
 
   function nodeSelectPrevSibling(thisNode) {
     if (
-      thisNode.nodeName.toLowerCase() === "body" ||
+      thisNode.nodeName.toLowerCase() === 'body' ||
       thisNode.parentNode.childElementCount === 0
     ) {
       return thisNode;
     }
     let loopNode =
       thisNode.parentNode.lastElementChild.nodeName.toLowerCase() ===
-      "node-selector-popup"
+      'node-selector-popup'
         ? thisNode.parentNode.lastElementChild.previousElementSibling
         : thisNode.parentNode.lastElementChild;
     let targetNode = thisNode.previousElementSibling
@@ -113,73 +113,73 @@ javascript: (() => {
     class NodeSelectorPopUp extends HTMLElement {
       constructor() {
         super();
-        const shadow = this.attachShadow({ mode: "open" });
+        const shadow = this.attachShadow({ mode: 'open' });
 
-        popupEl = document.createElement("div");
-        popupEl.setAttribute("id", "pop-up");
+        popupEl = document.createElement('div');
+        popupEl.setAttribute('id', 'pop-up');
 
-        popupHeader = document.createElement("div");
-        popupHeader.setAttribute("id", "header");
-        const popupHeaderTitle = document.createElement("span");
+        popupHeader = document.createElement('div');
+        popupHeader.setAttribute('id', 'header');
+        const popupHeaderTitle = document.createElement('span');
 
-        popupHeaderTitle.setAttribute("id", "title");
-        popupHeaderTitle.textContent = "";
+        popupHeaderTitle.setAttribute('id', 'title');
+        popupHeaderTitle.textContent = '';
 
-        closeButton = document.createElement("button");
-        closeButton.setAttribute("id", "close-button");
-        closeButton.textContent = "×";
-        closeButton.addEventListener("click", () => popupEl.remove(), false);
+        closeButton = document.createElement('button');
+        closeButton.setAttribute('id', 'close-button');
+        closeButton.textContent = '×';
+        closeButton.addEventListener('click', () => popupEl.remove(), false);
 
-        const popupMsg = document.createElement("div");
-        popupMsg.setAttribute("id", "popup-message");
+        const popupMsg = document.createElement('div');
+        popupMsg.setAttribute('id', 'popup-message');
         popupMsg.innerHTML = infoMsg ? popupMsgs.info : popupMsgs.normal;
         infoMsg = false;
 
-        popupButtons = document.createElement("div");
-        popupButtons.setAttribute("id", "buttons");
+        popupButtons = document.createElement('div');
+        popupButtons.setAttribute('id', 'buttons');
 
-        const docBodyButton = document.createElement("button");
-        docBodyButton.setAttribute("id", "doc-body");
-        docBodyButton.innerHTML = "<span>Document Body</span>";
+        const docBodyButton = document.createElement('button');
+        docBodyButton.setAttribute('id', 'doc-body');
+        docBodyButton.innerHTML = '<span>Document Body</span>';
         docBodyButton.onclick = () => {
           currentNode = document.body;
           currentNode = nodeSelectParent(currentNode) ?? currentNode;
           popupMsg.innerHTML = popupMsgs.normal;
         };
 
-        const parentButton = document.createElement("button");
-        parentButton.setAttribute("id", "parent");
-        parentButton.innerHTML = "<span>Parent</span>";
+        const parentButton = document.createElement('button');
+        parentButton.setAttribute('id', 'parent');
+        parentButton.innerHTML = '<span>Parent</span>';
         parentButton.onclick = () => {
           currentNode = nodeSelectParent(currentNode) ?? currentNode;
           popupMsg.innerHTML = popupMsgs.normal;
         };
 
-        const childButton = document.createElement("button");
-        childButton.setAttribute("id", "child");
-        childButton.innerHTML = "<span>First<br/>Child</span>";
+        const childButton = document.createElement('button');
+        childButton.setAttribute('id', 'child');
+        childButton.innerHTML = '<span>First<br/>Child</span>';
         childButton.onclick = () => {
           currentNode = nodeSelectFirstChild(currentNode) ?? currentNode;
           popupMsg.innerHTML = popupMsgs.normal;
         };
 
-        const nextButton = document.createElement("button");
-        nextButton.setAttribute("id", "next");
-        nextButton.innerHTML = "<span>Next<br/>Sibling</span>";
+        const nextButton = document.createElement('button');
+        nextButton.setAttribute('id', 'next');
+        nextButton.innerHTML = '<span>Next<br/>Sibling</span>';
         nextButton.onclick = () => {
           currentNode = nodeSelectNextSibling(currentNode) ?? currentNode;
           popupMsg.innerHTML = popupMsgs.normal;
         };
 
-        const prevButton = document.createElement("button");
-        prevButton.setAttribute("id", "prev");
-        prevButton.innerHTML = "<span>Previous<br/>Sibling</span>";
+        const prevButton = document.createElement('button');
+        prevButton.setAttribute('id', 'prev');
+        prevButton.innerHTML = '<span>Previous<br/>Sibling</span>';
         prevButton.onclick = () => {
           currentNode = nodeSelectPrevSibling(currentNode) ?? currentNode;
           popupMsg.innerHTML = popupMsgs.normal;
         };
 
-        const style = document.createElement("style");
+        const style = document.createElement('style');
         style.textContent = `
           * {
             font-family: sans-serif;
@@ -303,11 +303,11 @@ javascript: (() => {
         shadow.appendChild(popupEl);
       }
     }
-    customElements.define("node-selector-popup", NodeSelectorPopUp);
+    customElements.define('node-selector-popup', NodeSelectorPopUp);
   }
   buildPopup();
 
-  let test = document.createElement("node-selector-popup");
+  let test = document.createElement('node-selector-popup');
   document.body.appendChild(test);
 
   draggable(popupHeader);
@@ -325,21 +325,21 @@ javascript: (() => {
     let isMouseDown = false;
     const currPos = { x: 0, y: 0 };
     const elPos = { x: initialOffset.left, y: initialOffset.top };
-    el.parentElement.addEventListener("mousedown", onMouseDown);
+    el.parentElement.addEventListener('mousedown', onMouseDown);
     function onMouseDown(event) {
       isMouseDown = true;
       currPos.x = event.clientX;
       currPos.y = event.clientY;
-      el.parentElement.style.cursor = "move";
+      el.parentElement.style.cursor = 'move';
     }
-    el.parentElement.addEventListener("mouseup", onMouseUp);
+    el.parentElement.addEventListener('mouseup', onMouseUp);
     function onMouseUp(event) {
       isMouseDown = false;
       elPos.x = parseInt(el.parentElement.style.left) || 0;
       elPos.y = parseInt(el.parentElement.style.top) || 0;
-      el.parentElement.style.cursor = "auto";
+      el.parentElement.style.cursor = 'auto';
     }
-    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener('mousemove', onMouseMove);
     function onMouseMove(event) {
       if (!isMouseDown) return;
       const delta = {
@@ -365,8 +365,8 @@ javascript: (() => {
         pos.y =
           document.documentElement.clientHeight - el.parentElement.offsetHeight;
       }
-      el.parentElement.style.left = pos.x + "px";
-      el.parentElement.style.top = pos.y + "px";
+      el.parentElement.style.left = pos.x + 'px';
+      el.parentElement.style.top = pos.y + 'px';
     }
   }
 })();
