@@ -109,11 +109,11 @@
         closeButton.textContent = "×";
         closeButton.addEventListener("click", () => popupEl.remove(), false);
 
-        popupBody = document.createElement("div");
-        popupBody.setAttribute("class", "body");
+        const popupMsg = document.createElement("div");
+        popupMsg.textContent = "Choose node level for selection";
 
-        const p = document.createElement("p");
-        p.textContent = "Choose node level for selection";
+        popupButtons = document.createElement("div");
+        popupButtons.setAttribute("class", "buttons");
 
         const parentButton = document.createElement("button");
         parentButton.setAttribute("id", "parent");
@@ -158,8 +158,15 @@
             opacity: .85;
             border-radius: .4em;
             border: 1px solid #fff;
+            padding-bottom: .75em;
             display: grid;
+            gap: .25em;
             color: #fff;
+          }
+
+          #pop-up div:nth-child(n+2) {
+            padding-left: .75em;
+            padding-right: .75em;
           }
 
           #pop-up .header {
@@ -181,19 +188,13 @@
             font-size: 1.2em;
           }
 
-          #pop-up .body {
-            padding: .5em .5em 0.75em;
+          #pop-up .buttons {
             display: grid;
             gap: .25em;
             grid-template-columns: 1fr 1.25fr 1fr;
             grid-template-areas:  "top top top"
                                   "left upper right"
                                   "left lower right";
-          }
-
-          #pop-up .body p {
-            grid-area: top;
-            margin: 0 0 .5em 0;
           }
 
           button {
@@ -233,14 +234,14 @@
         popupHeader.appendChild(popupHeaderTitle);
         popupHeader.appendChild(closeButton);
 
-        popupBody.appendChild(p);
-        popupBody.appendChild(parentButton);
-        popupBody.appendChild(childButton);
-        popupBody.appendChild(nextButton);
-        popupBody.appendChild(prevButton);
+        popupButtons.appendChild(parentButton);
+        popupButtons.appendChild(childButton);
+        popupButtons.appendChild(nextButton);
+        popupButtons.appendChild(prevButton);
 
         popupEl.appendChild(popupHeader);
-        popupEl.appendChild(popupBody);
+        popupEl.appendChild(popupMsg);
+        popupEl.appendChild(popupButtons);
 
         shadow.appendChild(popupEl);
         shadow.appendChild(style);
