@@ -218,7 +218,7 @@ javascript: (() => {
             aspect-ratio: 1;
             border: none;
             padding: .25em .25em 0 0;
-            line-height: .75em;
+            line-height: 1;
             text-align: center;
             color: #fff;
             font-size: 1.2em;
