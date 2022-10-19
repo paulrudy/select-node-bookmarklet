@@ -319,32 +319,42 @@ javascript: (() => {
       scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
   }
+
+  /* Source: https://stackoverflow.com/a/8797106/7613657 */
+  function addListenerMulti(element, s, fn) {
+    s.split(' ').forEach((e) => element.addEventListener(e, fn, false));
+  }
+
   /* Source: https://gist.github.com/remarkablemark/5002d27442600510d454a5aeba370579 */
   function draggable(el) {
     const initialOffset = offset(el.parentElement);
     let isMouseDown = false;
     const currPos = { x: 0, y: 0 };
     const elPos = { x: initialOffset.left, y: initialOffset.top };
-    el.parentElement.addEventListener('mousedown', onMouseDown);
+    addListenerMulti(el.parentElement, 'mousedown touchstart', onMouseDown);
     function onMouseDown(event) {
       isMouseDown = true;
-      currPos.x = event.clientX;
-      currPos.y = event.clientY;
+      currPos.x = event.clientX ?? event.touches[0].clientX;
+      currPos.y = event.clientY ?? event.touches[0].clientY;
       el.parentElement.style.cursor = 'move';
     }
-    el.parentElement.addEventListener('mouseup', onMouseUp);
+    addListenerMulti(el.parentElement, 'mouseup touchend', onMouseUp);
     function onMouseUp(event) {
       isMouseDown = false;
       elPos.x = parseInt(el.parentElement.style.left) || 0;
       elPos.y = parseInt(el.parentElement.style.top) || 0;
       el.parentElement.style.cursor = 'auto';
     }
-    document.addEventListener('mousemove', onMouseMove);
+    addListenerMulti(el.parentElement, 'mousemove touchmove', onMouseMove);
     function onMouseMove(event) {
       if (!isMouseDown) return;
+      const newPos = {
+        x: event.clientX ?? event.touches[0].clientX,
+        y: event.clientY ?? event.touches[0].clientY,
+      };
       const delta = {
-        x: event.clientX - currPos.x,
-        y: event.clientY - currPos.y,
+        x: newPos.x - currPos.x,
+        y: newPos.y - currPos.y,
       };
       const pos = { x: elPos.x + delta.x, y: elPos.y + delta.y };
       if (pos.x < 0) {
