@@ -27,3 +27,7 @@ Tapping the saved bookmarklet on mobile without losing the pre-selected area can
 
 1. Click the saved bookmarklet without anything on the web page already selected.
 2. Navigate.
+
+### Drag and drop popup
+
+The popup can be moved around on when clicked/tapped along its top area, and dragged.
